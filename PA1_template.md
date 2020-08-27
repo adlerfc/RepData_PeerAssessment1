@@ -6,13 +6,15 @@ output:
     keep_md: true
 ---
 
-```{r setup}
+
+```r
 knitr::opts_chunk$set(message = FALSE)
 ```
 
 ## Loading and preprocessing the data
 
-```{r load}
+
+```r
 rm(list = ls())
 library(tidyverse)
 library(lubridate)
@@ -24,18 +26,36 @@ activity <- mutate(activity, date = ymd(date))
 
 ## What is mean total number of steps taken per day?
 
-```{r steps_per_day}
+
+```r
 steps_day <- activity %>% group_by(date) %>%
         summarise(steps = sum(steps, na.rm = TRUE))
 
 hist(steps_day$steps, main = "Total number of steps per day", xlab = "Number of steps")
+```
+
+![](PA1_template_files/figure-html/steps_per_day-1.png)<!-- -->
+
+```r
 mean(steps_day$steps)
+```
+
+```
+## [1] 9354.23
+```
+
+```r
 median(steps_day$steps)
+```
+
+```
+## [1] 10395
 ```
 
 ## What is the average daily activity pattern?
 
-```{r steps_per_interval}
+
+```r
 steps_interval <- activity %>% group_by(interval) %>%
         summarise(steps = mean(steps, na.rm = TRUE))
 with(steps_interval, {
@@ -48,11 +68,25 @@ with(steps_interval, {
 )
 ```
 
+![](PA1_template_files/figure-html/steps_per_interval-1.png)<!-- -->
+
+```
+## [1] 835
+```
+
 ## Imputing missing values
 
-```{r missing_values}
+
+```r
 naIndexes <- !complete.cases(activity)
 sum(naIndexes)
+```
+
+```
+## [1] 2304
+```
+
+```r
 intervalMean <- (activity %>% group_by(interval) %>%
         mutate(intervalMean = mean(steps, na.rm = TRUE)))$intervalMean
 
@@ -63,13 +97,30 @@ steps_day_complete <- completeActivity %>% group_by(date) %>%
         summarise(steps = sum(steps))
 
 hist(steps_day_complete$steps, main = "Total number of steps per day", xlab = "Number of steps")
+```
+
+![](PA1_template_files/figure-html/missing_values-1.png)<!-- -->
+
+```r
 mean(steps_day_complete$steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(steps_day_complete$steps)
+```
+
+```
+## [1] 10766.19
 ```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r type_of_day}
+
+```r
 completeActivity <-  completeActivity %>% mutate(typeOfDay = factor((wday(date) %in% c(1, 7)), 
                           labels = c("weekday", "weekend")) )
 
@@ -81,3 +132,5 @@ ggplot(data = steps_interval_typeOfDay, mapping = aes(x = interval, y = steps, g
         facet_grid(typeOfDay ~ .) + 
         labs(x = "Interval", y = "Number of Steps")
 ```
+
+![](PA1_template_files/figure-html/type_of_day-1.png)<!-- -->
