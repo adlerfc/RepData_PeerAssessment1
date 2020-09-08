@@ -81,6 +81,8 @@ with(steps_interval, {
 
 ## Imputing missing values
 
+The missing (NA) values were imputed using the mean for their corresponding 5-minute interval.
+
 
 ```r
 naIndexes <- !complete.cases(activity)

@@ -409,6 +409,7 @@ with(steps_interval, plot(x = interval, y = steps, type = &quot;l&quot;,
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
+<p>The missing (NA) values were imputed using the mean for their corresponding 5-minute interval.</p>
 <pre class="r"><code>naIndexes &lt;- !complete.cases(activity)
 sum(naIndexes)</code></pre>
 <pre><code>## [1] 2304</code></pre>
