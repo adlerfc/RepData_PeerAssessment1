@@ -58,17 +58,22 @@ median(steps_day$steps)
 ```r
 steps_interval <- activity %>% group_by(interval) %>%
         summarise(steps = mean(steps, na.rm = TRUE))
+with(steps_interval, plot(x = interval, y = steps, type = "l",
+                     main = "Average number of steps of each 5 minute interval", 
+                     ylab = "Number of steps", xlab = "Intervals")
+)
+```
+
+![](PA1_template_files/figure-html/steps_per_interval-1.png)<!-- -->
+
+
+```r
 with(steps_interval, {
-        plot(x = interval, y = steps, type = "l",
-                main = "Average number of steps of each 5 minute interval", 
-                ylab = "Number of steps", xlab = "Intervals")
         maxIndex <- which(steps == max(steps))
         interval[maxIndex]
     }
 )
 ```
-
-![](PA1_template_files/figure-html/steps_per_interval-1.png)<!-- -->
 
 ```
 ## [1] 835
